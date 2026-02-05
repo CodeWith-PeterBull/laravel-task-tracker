@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning Labs Completion Checklist</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg); }
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .progress-section {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+        
+        .progress-text {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+        
+        .lab-item {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lab-item:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .lab-item.completed {
+            border-color: #10b981;
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+        }
+        
+        .lab-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .lab-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .lab-checkbox:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .lab-checkbox.checked {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+        
+        .lab-number {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        
+        .lab-number.completed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .lab-content {
+            flex: 1;
+        }
+        
+        .lab-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        
+        .lab-description {
+            color: #6b7280;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .lab-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .tag {
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .footer {
+            background: #f8fafc;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .footer-text {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .print-friendly {
+            display: none;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .header {
+                background: #1e3a8a;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            
+            .lab-item {
+                break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+            
+            .print-friendly {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Machine Learning Labs</h1>
+            <p>Completion Checklist & Progress Tracker</p>
+        </header>
+        
+        <div class="content">
+            <div class="progress-section">
+                <div class="progress-title">
+                    📊 Overall Progress
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0 of 10 labs completed (0%)</div>
+            </div>
+            
+            <div class="labs-container">
+                <div class="lab-item" data-lab="1">
+                    <div class="lab-header">
+                        <div class="lab-checkbox" onclick="toggleLab(1)">
+                            <span class="checkmark" style="display: none;">✓</span>
+                        </div>
+                        <div class="lab-number">1</div>
+                        <div class="lab-content">
+                            <h3 class="lab-title">Linear Regression Assignment: Gradient Descent Implementation</h3>
+                            <p class="lab-description">
+                                Implement linear regression using gradient descent algorithm. Understand cost function, 
+                                gradient computation, and iterative parameter updates.
+                            </p>
+                            <div class="lab-tags">
+                                <span class="tag">Gradient Descent</span>
+                                <span class="tag">Cost Function</span>
+                                <span class="tag">Parameter Updates</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lab-item" data-lab="2">
+                    <div class="lab-header">
+                        <div class="lab-checkbox" onclick="toggleLab(2)">
+                            <span class="checkmark" style="display: none;">✓</span>
+                        </div>
+                        <div class="lab-number">2</div>
+                        <div class="lab-content">
+                            <h3 class="lab-title">Naive Bayes Classification</h3>
+                            <p class="lab-description">
+                                Implement Naive Bayes Classifier for text or categorical data classification. 
+                                Focus on prior, likelihood, posterior probability calculations and Laplace smoothing.
+                            </p>
+                            <div class="lab-tags">
+                                <span class="tag">Probability</span>
+                                <span class="tag">Classification</span>
+                                <span class="tag">Laplace Smoothing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lab-item" data-lab="3">
+                    <div class="lab-header">
+                        <div class="lab-checkbox" onclick="toggleLab(3)">
+                            <span class="checkmark" style="display: none;">✓</span>
+                        </div>
+                        <div class="lab-number">3</div>
+                        <div class="lab-content">
+                            <h3 class="lab-title">Linear Regression: Gradient Descent with Regularization</h3>
+                            <p class="lab-description">
+                                Extend linear regression with L1/L2 regularization to avoid overfitting. 
+                                Implement Ridge and Lasso regression variants using gradient descent.
+                            </p>
+                            <div class="lab-tags">
+                                <span class="tag">Regularization</span>
+                                <span class="tag">Ridge</span>
+                                <span class="tag">Lasso</span>
+                                <span class="tag">Overfitting</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lab-item" data-lab="4">
+                    <div class="lab-header">
+                        <div class="lab-checkbox" onclick="toggleLab(4)">
+                            <span class="checkmark" style="display: none;">✓</span>
+                        </div>
+                        <div class="lab-number">4</div>
+                        <div class="lab-content">
+                            <h3 class="lab-title">Lab Exercise: Hyperparameter Tuning for CNNs Using Genetic Algorithms</h3>
+                            <p class="lab-description">
+                                Implement Genetic Algorithm for CNN hyperparameter tuning (filter sizes, learning rate, dropout rate). 
+                                Evaluate performance optimization across generations.
+                            </p>
+                            <div class="lab-tags">
+                                <span class="tag">CNN</span>
+                                <span class="tag">Genetic Algorithm</span>
+                                <span class="tag">Hyperparameter Tuning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lab-item" data-lab="5">
+                    <div class="lab-header">
+                        <div class="lab-checkbox" onclick="toggleLab(5)">
+                            <span class="checkmark" style="display: none;">✓</span>
+                        </div>
+                        <div class="lab-number">5</div>
+                        <div class="lab-content">
+                            <h3 class="lab-title">Lab Assignment: Principal Component Analysis (PCA)</h3>
+                            <p class="lab-description">
+                                Implement PCA from scratch: compute covariance matrix, eigenvectors, eigenvalues, 
+                                and perform dimensionality reduction with variance retention analysis.
+                            </p>
+                            <div class="lab-tags">
+                                <span class="tag">PCA</span>
+                                <span class="tag">Dimensionality Reduction</span>
+                                <span class="tag">Eigenvectors</span>
+                                <span class="tag">Variance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lab-item" data-lab="6">
+                    <div class="lab-header">
+                        <div class="lab-checkbox" onclick="toggleLab(6)">
+                            <span class="checkmark" style="display: none;">✓</span>
+                        </div>
+                        <div class="lab-number">6</div>
+                        <div class="lab-content">
+                            <h3 class="lab-title">Support Vector Machines Lab Assignment</h3>
+                            <p class="lab-description">
+                                Implement SVM from scratch or using scikit-learn, focusing on kernel tricks, 
+                                margin maximization, and hyperparameter tuning (C, gamma).
+                            </p>
+                            <div class="lab-tags">
+                                <span class="tag">SVM</span>
+                                <span class="tag">Kernel Tricks</span>
+                                <span class="tag">Margin Maximization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lab-item" data-lab="7">
+                    <div class="lab-header">
+                        <div class="lab-checkbox" onclick="toggleLab(7)">
+                            <span class="checkmark" style="display: none;">✓</span>
+                        </div>
+                        <div class="lab-number">7</div>
+                        <div class="lab-content">
+                            <h3 class="lab-title">Ensemble Methods Group Lab: Bagging, Boosting, Stacking & Voting</h3>
+                            <p class="lab-description">
+                                Implement each ensemble method on classification datasets: Bagging (Random Forest), 
+                                Boosting (AdaBoost/XGBoost), Stacking (meta-learners), and Voting classifiers.
+                            </p>
+                            <div class="lab-tags">
+                                <span class="tag">Ensemble</span>
+                                <span class="tag">Bagging</span>
+                                <span class="tag">Boosting</span>
+                                <span class="tag">Stacking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lab-item" data-lab="8">
+                    <div class="lab-header">
+                        <div class="lab-checkbox" onclick="toggleLab(8)">
+                            <span class="checkmark" style="display: none;">✓</span>
+                        </div>
+                        <div class="lab-number">8</div>
+                        <div class="lab-content">
+                            <h3 class="lab-title">Apriori Algorithm Implementation Lab: Market Basket Analysis from Scratch</h3>
+                            <p class="lab-description">
+                                Implement Apriori algorithm to discover frequent itemsets and association rules. 
+                                Focus on candidate generation, pruning, and support-confidence lift metrics.
+                            </p>
+                            <div class="lab-tags">
+                                <span class="tag">Apriori</span>
+                                <span class="tag">Market Basket</span>
+                                <span class="tag">Association Rules</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lab-item" data-lab="9">
+                    <div class="lab-header">
+                        <div class="lab-checkbox" onclick="toggleLab(9)">
+                            <span class="checkmark" style="display: none;">✓</span>
+                        </div>
+                        <div class="lab-number">9</div>
+                        <div class="lab-content">
+                            <h3 class="lab-title">GRU (Gated Recurrent Unit) Implementation Lab: Time Series Prediction from Scratch</h3>
+                            <p class="lab-description">
+                                Implement GRU neural network for time series forecasting. Understand update/reset gates, 
+                                hidden state updates, and backpropagation through time (BPTT).
+                            </p>
+                            <div class="lab-tags">
+                                <span class="tag">GRU</span>
+                                <span class="tag">Time Series</span>
+                                <span class="tag">RNN</span>
+                                <span class="tag">BPTT</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lab-item" data-lab="10">
+                    <div class="lab-header">
+                        <div class="lab-checkbox" onclick="toggleLab(10)">
+                            <span class="checkmark" style="display: none;">✓</span>
+                        </div>
+                        <div class="lab-number">10</div>
+                        <div class="lab-content">
+                            <h3 class="lab-title">ResNet Implementation Lab: Building Deep Residual Networks from Scratch</h3>
+                            <p class="lab-description">
+                                Implement ResNet architecture with skip connections. Build residual blocks, 
+                                stack them into deeper networks, and evaluate performance improvements.
+                            </p>
+                            <div class="lab-tags">
+                                <span class="tag">ResNet</span>
+                                <span class="tag">Skip Connections</span>
+                                <span class="tag">Deep Learning</span>
+                                <span class="tag">CNN</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p class="footer-text">
+                💡 Tip: Click on the checkboxes to mark labs as completed and track your progress!
+                <br>
+                <span class="print-friendly">Printed on: <script>document.write(new Date().toLocaleDateString())</script></span>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        let completedLabs = JSON.parse(localStorage.getItem('completedLabs') || '[]');
+        
+        function initializeLabs() {
+            completedLabs.forEach(labNum => {
+                markLabCompleted(labNum, false);
+            });
+            updateProgress();
+        }
+        
+        function toggleLab(labNum) {
+            const isCompleted = completedLabs.includes(labNum);
+            
+            if (isCompleted) {
+                completedLabs = completedLabs.filter(num => num !== labNum);
+                markLabIncomplete(labNum);
+            } else {
+                completedLabs.push(labNum);
+                markLabCompleted(labNum, true);
+            }
+            
+            localStorage.setItem('completedLabs', JSON.stringify(completedLabs));
+            updateProgress();
+        }
+        
+        function markLabCompleted(labNum, animate = true) {
+            const labItem = document.querySelector(`[data-lab="${labNum}"]`);
+            const checkbox = labItem.querySelector('.lab-checkbox');
+            const checkmark = labItem.querySelector('.checkmark');
+            const labNumber = labItem.querySelector('.lab-number');
+            
+            labItem.classList.add('completed');
+            checkbox.classList.add('checked');
+            labNumber.classList.add('completed');
+            checkmark.style.display = 'block';
+            
+            if (animate) {
+                labItem.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    labItem.style.transform = '';
+                }, 200);
+            }
+        }
+        
+        function markLabIncomplete(labNum) {
+            const labItem = document.querySelector(`[data-lab="${labNum}"]`);
+            const checkbox = labItem.querySelector('.lab-checkbox');
+            const checkmark = labItem.querySelector('.checkmark');
+            const labNumber = labItem.querySelector('.lab-number');
+            
+            labItem.classList.remove('completed');
+            checkbox.classList.remove('checked');
+            labNumber.classList.remove('completed');
+            checkmark.style.display = 'none';
+        }
+        
+        function updateProgress() {
+            const totalLabs = 10;
+            const completed = completedLabs.length;
+            const percentage = Math.round((completed / totalLabs) * 100);
+            
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            progressFill.style.width = `${percentage}%`;
+            progressText.textContent = `${completed} of ${totalLabs} labs completed (${percentage}%)`;
+            
+            if (completed === totalLabs) {
+                progressText.textContent += ' 🎉 All labs completed!';
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeLabs);
+    </script>
+</body>
+</html>
